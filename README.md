@@ -55,6 +55,15 @@ Two behaviors are pinned by tests because reviewers keep assuming the opposite:
 - **Replay passes the raw verifier** (`test_raw_verifier_accepts_replay_by_design`). The verifier is stateless; the same receipt verifies twice. Replay resistance is the *application's* job — bind chain id / context / nonce inside the journal.
 - **Trailing seal bytes are ignored** (`test_appended_garbage_accepted_seal_malleability`). The verifier decodes a fixed-size Groth16 seal; `seal ‖ garbage` verifies the same statement. Not a forgery — but any integration that keys a nullifier or replay registry on *raw seal bytes* sees two "different" receipts. Key on `(imageId, journalDigest)`.
 
+The application pair is `WithdrawalGate`. The unbound gate pays the journal amount on every verify, so the committed receipt releases 100 twice. The bound gate nullifies `(imageId, journalDigest)`: the same seal, and the same seal with an extra byte, both stop at one payment of 100.
+
+```bash
+cd onchain-verify
+forge test --match-contract WithdrawalGateTest -vv
+```
+
+The committed journal is 24 bytes: receipt id, owner, amount. It does not contain a chain id. The nullifier stops a second payment on this deployment only. A fresh deployment still accepts the same receipt until the guest commits the chain.
+
 The negative tests are the point: the verifier binds the exact guest image and the exact journal. Everything else reverts.
 
 CI runs only this Foundry suite. It does not rebuild the guest or re-prove.
