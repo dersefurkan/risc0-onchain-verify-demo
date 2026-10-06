@@ -83,3 +83,7 @@ Authorized research and teaching. No mainnet transactions. See [SECURITY.md](SEC
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE). RISC Zero and OpenZeppelin code under `onchain-verify/lib/` keep their upstream licenses.
+
+---
+
+Hired version of this seam: one guest plus its verifier, five days, $1,500, private Foundry repo. [dersefurkan.github.io](https://dersefurkan.github.io) · dersefurkan32@gmail.com · Telegram [@FURY_Fn](https://t.me/FURY_Fn)
